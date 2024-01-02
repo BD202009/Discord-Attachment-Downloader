@@ -2,22 +2,30 @@
 
 ## About
 
-Download any message attachements from a specific Discord chat or channel. Files will be saved in following format (yyyyMMdd_HHmmss_original file name)
+Download attachments from a designated Discord chat or channel. Files will be saved in the format (yyyyMMdd_HHmmss_originalFileName).
 
 
-##Setup
-
+## Setup
 
 ### On Windows
 
-#### 1. Install any dependencys
+#### 1. Install the dependencies
 
-- Install [Visual Studio Community 2022](https://visualstudio.microsoft.com/de/downloads/ "Visual Studio Community") or later
-- Install the Python development workload and the optional Python native development tools option in Visual Studio Community
-- Install [Python 3.12](https://www.python.org/downloads/ "Python 3.12") or later
-- Download the 'discord_filedownload.py' file from this repository and copy into any folder of your choice on your computer.
+- Install [Visual Studio Community 2022](https://visualstudio.microsoft.com/de/downloads/ "Visual Studio Community") or a later version.
+- Install the Python development workload, including the optional Python native development tools, in Visual Studio Community.
+- Install [Python 3.12](https://www.python.org/downloads/ "Python 3.12") or a later version.
+- Download the 'discord_filedownload.py' file from this repository and copy it to any folder of your choice on your computer.
+- Install the 'discord.py' library using: 
+```bash 
+pip install discord.py
+```
 
 #### 2. Setup a Discord Bot
+
+- Open [https://discord.com/developers/](https://discord.com/developers/).
+- Go to 'Applications' and click on 'New Application' to add a new application.
+- Name your application e.g. 'attachement_downloader'. Click on 'Create'
+- 
 
 #### 3. Final Setup
 - Download the 'discord_filedownload.py' file from this repository and copy into any folder of your choice on your computer.
