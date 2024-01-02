@@ -1,11 +1,11 @@
-# DiscordDownloader
+# Discord Attachment Downloader v1.0
 
 ## About
 
 Download attachments from a designated Discord chat or channel. Files will be saved in the format (yyyyMMdd_HHmmss_originalFileName).
 
 
-## Setup
+##Setup
 
 ### On Windows
 
@@ -23,9 +23,20 @@ pip install discord.py
 #### 2. Setup a Discord Bot
 
 - Open [https://discord.com/developers/](https://discord.com/developers/).
-- Go to 'Applications' and click on 'New Application' to add a new application.
-- Name your application e.g. 'attachement_downloader'. Click on 'Create'
-- 
+- Go to 'Applications' on the left hand menu and click on 'New Application' to add a new application.
+- Name your application e.g. 'attachment_downloader'. Click on 'Create'
+- Choose 'Bot' from the left hand menu.
+- Click on 'Add Bot' and confirm to add a bot to your application by clicking on 'Yes, do it!'. Your bot is created now.
+- Now click on 'Copy' next to the bot icon to copy/note down the bot token. If the 'Copy' button is not visible you must click on 'Regenerate' first to generate a bot token. <span style="color:red;">Do not share the Token!</span>
+
+Check if following steps are really needed!!
+Following steps are needed to use the bot for channels inside your own server:
+- Go to to 'OAuth2' and 'URL Generator' via the left hand menu to generate a permission link.
+- On the following screen select the 'bot' from 'SCOPES' and select 'Administrator' from 'BOT PERMISSIONS'.
+- Copy and open the 'GENERATED URL' in a new browser window.
+- Choose the server to which the bot shall be liked to from the drop down list 'ADD TO SERVER' and click 'Continue'.
+- Now click on 'Authorize' to confirm the permissions of the bot.
+
 
 #### 3. Final Setup
 - Download the 'discord_filedownload.py' file from this repository and copy into any folder of your choice on your computer.
