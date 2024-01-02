@@ -32,13 +32,26 @@ import discord
 import os
 import sys
 import asyncio
-from datetime import datetime
+from datetime import datetime, timedelta
 import msvcrt
 from configparser import ConfigParser
 
-CONFIG_FOLDER = '../config'
+def check_discord():
+    try:
+        import discord
+        print("Discord.py is installed.")
+        return True
+    except ImportError:
+        print("Discord.py is not installed.")
+        return False
+    
+bot_ready_event = asyncio.Event()
+
+# Config folder and file
+CONFIG_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__),'..', 'config'))
 CONFIG_FILE = os.path.join(CONFIG_FOLDER, 'config.ini')
-OUTPUT_FOLDER = '../output'  # Output folder in the root directory
+# Output folder in the root directory
+OUTPUT_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__),'..', 'output'))
 
 # Function to create the config file with default values
 def create_config():
@@ -61,7 +74,7 @@ CHANNEL_ID = config.get('Credentials', 'ChannelID')
 
 # If Token is missing, prompt the user to enter it
 if not TOKEN:
-    TOKEN = input("Enter your bot token: ")
+    TOKEN = input("Enter your Discord bot token: ")
 
     # Update config file with the entered Token
     config['Credentials']['Token'] = TOKEN
@@ -70,10 +83,10 @@ if not TOKEN:
 
 # Display current channel ID and ask if the user wants to keep it
 if CHANNEL_ID:
-    current_channel_id = input(f"Current Channel ID: {CHANNEL_ID}\nDo you want to keep it? (Y/N): ")
+    current_channel_id = input(f"Current Discord Channel ID: {CHANNEL_ID}\nDo you want to keep it? (Y/N): ")
 
     if current_channel_id.lower() == 'n':
-        CHANNEL_ID = input("Enter the new Discord channel ID: ")
+        CHANNEL_ID = input("Enter the new Discord Channel ID: ")
 
         # Update config file with the new Channel ID
         config['Credentials']['ChannelID'] = CHANNEL_ID
@@ -88,20 +101,20 @@ else:
     with open(CONFIG_FILE, 'w') as config_file:
         config.write(config_file)
 
-# Replace with your bot token
-#TOKEN = "MTE5MTU3MTE1ODY0Mjk5NTIxMA.GCUmIA.cWtsqv9duNz7okqG279B6EyccN2MhsJNXwbfQI"
-
-# Take user input for the desired channel ID
-#CHANNEL_ID = input("Enter the Discord channel ID: ")
-
-# Replace with the desired channel ID
-#CHANNEL_ID = "1189662073316188231"
-
 # Create the output folder if it doesn't exist
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
+
+def validate_date_input(date_str):
+    try:
+        if date_str:
+            datetime.strptime(date_str, "%Y-%m-%d")
+        return True
+    except ValueError:
+        print("Invalid date format. Please use YYYY-MM-DD.")
+        return False
 
 @client.event
 async def on_ready():
@@ -110,8 +123,13 @@ async def on_ready():
     channel = client.get_channel(int(CHANNEL_ID))
     
     # Ask the user for date range
-    start_date_str = input("Enter the start date in YYYY-MM-DD format (press Enter for all history): ")
-    end_date_str = input("Enter the end date in YYYY-MM-DD format (press Enter for all history): ")
+    start_date_str = await async_input("Enter the start date in YYYY-MM-DD format (press Enter for all history): ")
+    while not validate_date_input(start_date_str):
+        start_date_str = await async_input("Enter a valid start date: ")
+        
+    end_date_str = await async_input("Enter the end date in YYYY-MM-DD format (press Enter for all history): ")
+    while not validate_date_input(end_date_str):
+        end_date_str = await async_input("Enter a valid end date: ")
 
     if start_date_str and end_date_str:
         # Parse start and end dates
@@ -121,6 +139,14 @@ async def on_ready():
         await download_attachments(channel, start_date, end_date)
     else:
         await download_attachments(channel)
+
+    # Signal that the bot is ready
+    bot_ready_event.set()
+    
+
+async def async_input(prompt: str) -> str:
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(None, input, prompt)
         
 async def download_attachments(channel, start_date=None, end_date=None):
     history_limit = None  # No limit by default
@@ -132,18 +158,24 @@ async def download_attachments(channel, start_date=None, end_date=None):
     async for message in channel.history(limit=history_limit):
         for attachment in message.attachments:
             timestamp = get_message_timestamp(message)
-            message_text = message.content
+            message_text = f"Author: {message.author.name}\n"  # Add the username to the message text
+            message_text += f"Content: {message.content}\n\n" if message.content else ""  # Add message content if available
             
             # Save attachments in the output folder
             output_filename = f"{timestamp}_{attachment.filename}"
             output_path = os.path.join(OUTPUT_FOLDER, output_filename)
-            await attachment.save(output_path)
+            try:
+                await attachment.save(output_path)
+            except Exception as e:
+                print(f"Error saving attachment: {e}")
 
             # Save message text in a separate .txt file
             txt_filename = f"{timestamp}_{attachment.filename}.txt"
             txt_path = os.path.join(OUTPUT_FOLDER, txt_filename)
             with open(txt_path, 'w', encoding='utf-8') as txt_file:
                 txt_file.write(message_text)
+
+            print(attachment.filename)
 
 def get_message_timestamp(message):
     # Use the timestamp of the message
@@ -160,14 +192,20 @@ async def get_message_limit(channel, start_date, end_date):
     limit = await channel.history(after=start_date, before=limit_date).flatten()
     return len(limit)
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(client.start(TOKEN))
 
-# Notify the user that the code has finished
-print("Code has finished. Press any key to close this window.")
+try:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
 
-# Check if a key is pressed to exit
-while True:
-    if msvcrt.kbhit():
-        msvcrt.getch()
-        sys.exit()
+    # Run the bot in the event loop
+    loop.create_task(client.start(TOKEN))
+
+    # Wait for the bot to be ready
+    loop.run_until_complete(bot_ready_event.wait())
+
+    # Prompt the user to press Enter to close the window
+    input("Code has finished. Press 'Enter' to close this window.\n")
+except KeyboardInterrupt:
+    loop.run_until_complete(cleanup())
+finally:
+    loop.close()
