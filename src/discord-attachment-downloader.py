@@ -1,32 +1,53 @@
 """
-Discord Attachment Downloader v1.0
+Discord Bot for Downloading Attachments and Saving Messages
 
-Developer: Dennis Biehl
-Date: January 2, 2024
-Description: This script downloads attachments from a Discord channel and saves them with a timestamped filename.
+This script is a Discord bot that connects to a specified Discord server,
+downloads attachments from messages within a given date range, and saves
+the corresponding message text in a separate text file. The bot prompts
+the user for necessary configuration details such as Discord bot token,
+channel ID, and date range.
 
+Author: Dennis Biehl
+
+Contributors:
+- [Contributor 1]
+- [Contributor 2]
+
+License:
 MIT License
 
-Copyright (c) 2024 Dennis Biehl
+Dependencies:
+- discord.py
+- asyncio
+- datetime
+- os
+- msvcrt
+- configparser
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Usage:
+1. Install required dependencies using `pip install -r requirements.txt`.
+2. Run the script and follow the prompts to configure the bot.
+3. The bot will download attachments and save message text in the 'output' folder.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Configuration:
+- The bot reads configuration details from 'config/config.ini'.
+- If the configuration file doesn't exist, it will be created with default values.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Notes:
+- The script uses asyncio to handle asynchronous input for date entry.
+- Attachments are saved in the 'output' folder.
+- Each attachment is saved with a filename containing the timestamp and the original filename.
+- Message text is saved in a separate '.txt' file with a similar filename structure.
+
+Version: __version__
+Release Date: __release_date__
+Date: 2024-01-03
+
+Updates:
+- 2024-01-02: Initial release.
+- 2024-01-03: Docstring updated.
 """
+
 
 import discord
 import os
