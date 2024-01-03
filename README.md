@@ -50,6 +50,8 @@ To use the bot for channels within your server:
 6. The script will proceed to download all attachments. If an attachment already exists in the output folder, it will be automatically overwritten.
 7. In the output folder, you will find the attachments and corresponding txt-files with the creator's name and message text.
 
+## License
 
+This project is licensed under the [MIT License] - see the [LICENSE](LICENSE) file for details.
 
 ### End
