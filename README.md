@@ -1,5 +1,7 @@
 # Discord Attachment Downloader v1.0
 
+![](https://github.com/BD202009/Discord-Attachment-Downloader/blob/main/logo/dad-logo.png)
+
 ## About
 
 Download attachments from a specified Discord chat or channel. Files will be saved in the format (yyyyMMdd_HHmmss_originalFileName). Additionally, pertinent information such as the message text and sender will be stored in a corresponding txt file.
