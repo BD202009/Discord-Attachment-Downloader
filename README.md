@@ -1,4 +1,4 @@
-# DiscordDownloader
+# Discord Attachment Downloader v1.0
 
 ## About
 
