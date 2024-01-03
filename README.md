@@ -1,5 +1,6 @@
 # Discord Attachment Downloader v1.0
-![](https://img.shields.io/github/stars/BD202009/Discord-Attachment-Downloader.svg) ![](https://img.shields.io/github/forks/BD202009/Discord-Attachment-Downloader.svg) ![](https://img.shields.io/github/tag/BD202009/Discord-Attachment-Downloader.svg) ![](https://img.shields.io/github/release/BD202009/Discord-Attachment-Downloader.svg) ![](https://img.shields.io/github/issues/BD202009/Discord-Attachment-Downloader.svg)
+![](https://img.shields.io/github/stars/BD202009/Discord-Attachment-Downloader.svg) ![](https://img.shields.io/github/forks/BD202009/Discord-Attachment-Downloader.svg) ![](https://img.shields.io/github/tag/BD202009/Discord-Attachment-Downloader.svg) ![](https://img.shields.io/github/release/BD202009/Discord-Attachment-Downloader.svg) [![GitHub release](https://img.shields.io/github/release/BD202009/Discord-Attachment-Downloader.svg)](https://github.com/BD202009/Discord-Attachment-Downloader/releases)
+![](https://img.shields.io/github/issues/BD202009/Discord-Attachment-Downloader.svg)
 
 ## About
 
