@@ -1,32 +1,44 @@
 """
-Discord Attachment Downloader v1.0
+Discord Attachment Downloader Launcher
 
-Developer: Dennis Biehl
-Date: January 2, 2024
-Description: This script starts the main script discord-attachment-downloader.py
+This script serves as a launcher for the Discord Attachment Downloader tool.
+It checks and installs the required dependencies listed in 'requirements.txt',
+then executes the main script for downloading Discord attachments.
 
+Author: Dennis Biehl
+
+Contributors:
+- [Contributor 1]
+- [Contributor 2]
+
+License:
 MIT License
 
-Copyright (c) 2024 Dennis Biehl
+Dependencies:
+- subprocess
+- os
+- sys
+- logging
+- traceback
+- datetime
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Usage:
+1. Ensure 'requirements.txt' contains the necessary packages.
+2. Run this script to check and install dependencies.
+3. The main script, 'discord-attachment-downloader.py', will be launched.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Notes:
+- Logs are saved to 'launcher.log' with a custom formatter.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Version: __version__
+Release Date: __release_date__
+Date: 2024-01-03
+
+Updates:
+- 2024-01-02: Initial release.
+- 2024-01-03: Docstring updated.
 """
+
 
 import subprocess
 import os
@@ -41,6 +53,32 @@ logging.basicConfig(filename=log_filename, level=logging.ERROR, format='%(asctim
 
 # Set the working directory to the root folder
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+def read_requirements_file(file_path):
+    with open(file_path, "r") as file:
+        return [line.strip() for line in file.readlines() if line.strip()]
+
+def check_dependencies(required_packages):
+    installed_packages = subprocess.check_output([sys.executable, "-m", "pip", "list"]).decode("utf-8").split("\n")
+    installed_packages = {line.split("==")[0].lower() for line in installed_packages if line}
+
+    missing_packages = [pkg for pkg in required_packages if pkg.lower() not in installed_packages]
+    return missing_packages
+
+def install_dependencies(required_packages):
+    missing_packages = check_dependencies(required_packages)
+
+    if missing_packages:
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+            logging.info("Dependencies installed successfully.")
+            print("Dependencies installed successfully.")
+        except subprocess.CalledProcessError:
+            logging.error("Error installing dependencies. Please install them manually.")
+            print("Error installing dependencies. Please install them manually.")
+    else:
+        logging.info("All dependencies are already installed.")
+        print("All dependencies are already installed.")
 
 def start_discord_attachment_downloader():
     # Specify the path to discord-attachment-downloader.py
@@ -59,5 +97,10 @@ def start_discord_attachment_downloader():
         sys.exit(1)
 
 if __name__ == "__main__":
+    requirements_file = 'requirements.txt'
+    required_packages = read_requirements_file(requirements_file)
+
+    install_dependencies(required_packages)
+    
     start_discord_attachment_downloader()
     sys.exit(0)  # Clean exit
