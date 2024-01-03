@@ -2,7 +2,7 @@
 
 ## About
 
-Download attachments from a designated Discord chat or channel. Files will be saved in the format (yyyyMMdd_HHmmss_originalFileName).
+Download attachments from a specified Discord chat or channel. Files will be saved in the format (yyyyMMdd_HHmmss_originalFileName). Additionally, pertinent information such as the message text and sender will be stored in a corresponding txt file.
 
 
 ## Setup
