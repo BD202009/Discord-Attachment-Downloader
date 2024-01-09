@@ -16,6 +16,7 @@ Download attachments from a specified Discord chat or channel. Files will be sav
 
 (1. Install [Visual Studio Community 2022](https://visualstudio.microsoft.com/de/downloads/ "Visual Studio Community") or a later version.
 2. Install the Python development workload, including the optional Python native development tools, in Visual Studio Community.) not necessary? To be tested.
+
 3. Install [Python 3.12](https://www.python.org/downloads/ "Python 3.12") or a later version.
 
 No longer needed, as dependencies will be automatically installed.
