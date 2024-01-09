@@ -1,4 +1,4 @@
-# Discord Attachment Downloader v1.0
+# Discord Attachment Downloader v1.0.0
 
 
 ![](https://github.com/BD202009/Discord-Attachment-Downloader/blob/main/logo/dad_logo.jpg)
@@ -14,8 +14,8 @@ Download attachments from a specified Discord chat or channel. Files will be sav
 
 #### Install Dependencies
 
-1. Install [Visual Studio Community 2022](https://visualstudio.microsoft.com/de/downloads/ "Visual Studio Community") or a later version.
-2. Install the Python development workload, including the optional Python native development tools, in Visual Studio Community.
+(1. Install [Visual Studio Community 2022](https://visualstudio.microsoft.com/de/downloads/ "Visual Studio Community") or a later version.
+2. Install the Python development workload, including the optional Python native development tools, in Visual Studio Community.) not necessary? To be tested.
 3. Install [Python 3.12](https://www.python.org/downloads/ "Python 3.12") or a later version.
 
 No longer needed, as dependencies will be automatically installed.
